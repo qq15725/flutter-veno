@@ -1,0 +1,10 @@
+.DS_Store
+.atom/
+.idea/
+.vscode/*
+.melos_tool/*
+
+.packages
+.dart_tool/
+pubspec.lock
+*.iml

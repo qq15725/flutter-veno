@@ -1,0 +1,4 @@
+name: veno_monorepo
+
+packages:
+  - packages/**
