@@ -1,14 +1,26 @@
+import 'package:flutter/material.dart';
+
 import 'package:veno_container/veno_container.dart';
 
+typedef void VenoProvider(Veno app);
+
 class Veno extends VenoContainer {
-  static Veno _singleton = Veno._internal();
+  Veno({Key key, Widget child, List<VenoProvider> providers})
+      : super(key: key, child: child) {
+    providers.forEach((provider) {
+      provider(this);
+    });
+  }
 
-  factory Veno() => _singleton;
+  static Veno of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Veno>();
+  }
 
-  Veno._internal() {}
+  T get<T>([key]) {
+    return offsetGet<T>(key);
+  }
 
-  static T get<T>([key]) => _singleton.offsetGet(key);
-
-  static T set<T>(dynamic value, {dynamic key}) =>
-      _singleton.offsetSet<T>(value, key: key);
+  T set<T>(dynamic value, {dynamic key}) {
+    return offsetSet<T>(value, key: key);
+  }
 }

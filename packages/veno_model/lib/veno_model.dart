@@ -1,4 +1,3 @@
-// Flutters
 import 'package:flutter/foundation.dart';
 
 abstract class VenoModel extends ChangeNotifier {

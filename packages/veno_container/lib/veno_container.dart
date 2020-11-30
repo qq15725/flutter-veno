@@ -1,4 +1,8 @@
-class VenoContainer {
+import 'package:flutter/material.dart';
+
+class VenoContainer extends InheritedWidget {
+  VenoContainer({Key key, Widget child}) : super(key: key, child: child);
+
   Map<String, dynamic> _instances = {};
 
   T offsetGet<T>([key]) {
@@ -20,5 +24,18 @@ class VenoContainer {
     }
     _instances[key] = value;
     return value;
+  }
+
+  Map<String, dynamic> getInstances() {
+    return _instances;
+  }
+
+  static VenoContainer of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<VenoContainer>();
+  }
+
+  @override
+  bool updateShouldNotify(VenoContainer old) {
+    return old.getInstances() != getInstances();
   }
 }

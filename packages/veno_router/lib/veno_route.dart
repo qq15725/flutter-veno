@@ -1,45 +1,58 @@
 part of 'veno_router.dart';
 
-typedef Widget VRouteBuilder(Widget child, Object arguments);
+typedef Widget VenoRouteBuilder(Widget child, VenoRoute currentRoute);
 
-Widget _defaultVRouteBuilder(Widget child, Object arguments) =>
-    child ?? SizedBox.shrink();
+Widget _defaultVenoRouteBuilder(Widget child, _) {
+  return child ?? SizedBox.shrink();
+}
 
 @immutable
 class VenoRoute {
+  final String name;
   final String path;
   final List<VenoRoute> children;
-  final VRouteBuilder builder;
+  final VenoRouteBuilder builder;
+  final Map params;
 
   const VenoRoute({
+    this.name,
     this.path,
-    this.builder = _defaultVRouteBuilder,
+    this.builder = _defaultVenoRouteBuilder,
     this.children,
+    this.params,
   });
 
-  String get _path => path?.replaceFirst(RegExp(r'/'), '') ?? '';
+  Map<String, Map> _patternMap({VenoRoute parentRoute}) {
+    String pattern = parentRoute == null ? path : "${parentRoute.path}/${path}";
 
-  VenoRoute findChild(_path) {
-    return children?.firstWhere(
-      (route) => route._path.isEmpty || route._path == _path,
-      orElse: () => null,
-    );
+    final item = {
+      'route': this,
+      'builder': (Widget child, VenoRoute route) {
+        Widget widget = this.builder(child, route);
+        if (parentRoute == null) {
+          return widget;
+        }
+        return parentRoute.builder(widget, null);
+      },
+    };
+
+    Map<String, Map> map = {pattern: item};
+
+    (children ?? []).forEach((child) {
+      map.addAll(
+        child._patternMap(parentRoute: this),
+      );
+    });
+    return map;
   }
 
-  Widget build(List<String> paths, int index, Object arguments) {
-    if (index == paths.length) {
-      return builder(null, arguments);
-    }
-    final child = findChild(paths[index]);
-    if (path?.isNotEmpty ?? false) {
-      index += 1;
-    }
-    return builder(child?.build(paths, index, arguments), null);
-  }
-
-  Route buildPageRoute(List<String> paths, int index, Object arguments) {
-    return PageRouteBuilder<dynamic>(
-      pageBuilder: (_, __, ___) => build(paths, index, arguments),
+  VenoRoute _clone({Map params}) {
+    return VenoRoute(
+      name: name,
+      path: path,
+      builder: builder,
+      children: children,
+      params: params,
     );
   }
 }

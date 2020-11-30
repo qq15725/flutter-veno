@@ -1,7 +1,7 @@
 name: veno_router
 description: Flutter plugin.
 homepage: https://github.com/qq15725/flutter-veno/tree/master/packages/veno_router
-version: 0.0.1
+version: 0.0.2
 
 dependencies:
   flutter:
