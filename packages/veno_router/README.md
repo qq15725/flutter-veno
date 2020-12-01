@@ -1,4 +1,4 @@
-Flutter 路由
+一个 Flutter 路由.
 
 [![Version](https://img.shields.io/pub/v/veno_router)](https://pub.dev/packages/veno_router)
 
