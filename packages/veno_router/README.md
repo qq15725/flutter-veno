@@ -1,12 +1,14 @@
-# veno_router
-
 Flutter 路由
 
-- 嵌套视图
-- 路径参数
-- query string
+[![Version](https://img.shields.io/pub/v/veno_router)](https://pub.dev/packages/veno_router)
 
-## 例子
+## 特性
+
+- 嵌套路由
+- 路径参数[:*]
+- Query String
+
+## 快速开始
 
 ```dart
 import 'package:flutter/material.dart';
