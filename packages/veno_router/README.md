@@ -10,6 +10,48 @@
 
 ## 快速开始
 
+定义路由
+
+router.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:veno_router/veno_router.dart';
+
+import 'parent_view.dart';
+import 'child_ciew.dart';
+
+final router = VenoRouter(routes: [
+  VenoRoute(
+    path: '/',
+    builder: (Widget child, VenoRoute route) => ParentView(child: child, route: route),
+    children: [
+      VenoRoute(
+        path: '/products/:id',
+        builder: (Widget child, VenoRoute route) => ChildView(child: child, route: route),
+      ),
+    ],
+  ),
+]);
+```
+
+注册 onGenerateRoute 页面路由工厂
+
+main.dart
+
+```dart
+import 'package:flutter/material.dart';
+import 'router.dart';
+
+void main() {
+  runApp(MaterialApp(
+    onGenerateRoute: router.buildPageRouteFactory(),
+  ));
+}
+```
+
+## 例子
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:veno_router/veno_router.dart';
