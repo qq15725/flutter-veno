@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 abstract class VenoModel extends ChangeNotifier {
   Map _payload = {};
 
-  VenoModel([this._payload]);
+  VenoModel([payload]) {
+    this._payload = payload == null ? {} : payload;
+  }
 
   T get<T>(key) => _payload[key];
 

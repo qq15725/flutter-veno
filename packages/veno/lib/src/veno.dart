@@ -5,8 +5,13 @@ import 'package:veno_container/veno_container.dart';
 typedef void VenoProvider(Veno app);
 
 class Veno extends VenoContainer {
-  Veno({Key key, Widget child, List<VenoProvider> providers})
-      : super(key: key, child: child) {
+  static Veno _singleton;
+
+  Veno({
+    Key key,
+    Widget child,
+    List<VenoProvider> providers,
+  }) : super(key: key, child: child) {
     providers.forEach((provider) {
       provider(this);
     });
@@ -14,6 +19,14 @@ class Veno extends VenoContainer {
 
   static Veno of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Veno>();
+  }
+
+  static Veno singleton({ Veno veno }) {
+    if (veno != null) {
+      _singleton = veno;
+    }
+
+    return _singleton;
   }
 
   T get<T>([key]) {
