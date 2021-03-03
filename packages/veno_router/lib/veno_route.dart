@@ -1,58 +1,46 @@
 part of 'veno_router.dart';
 
-typedef Widget VenoRouteBuilder(Widget child, VenoRoute currentRoute);
+typedef Widget VenoRouteWidgetBuilder(
+    BuildContext context, Widget child, VenoRoute route);
 
-Widget _defaultVenoRouteBuilder(Widget child, _) {
-  return child ?? SizedBox.shrink();
-}
+Widget _defaultVenoRouteWidgetBuilder(_, Widget child, __) =>
+    child ?? SizedBox.shrink();
 
 @immutable
 class VenoRoute {
-  final String name;
-  final String path;
-  final List<VenoRoute> children;
-  final VenoRouteBuilder builder;
-  final Map params;
-
   const VenoRoute({
     this.name,
     this.path,
-    this.builder = _defaultVenoRouteBuilder,
+    this.builder = _defaultVenoRouteWidgetBuilder,
     this.children,
     this.params,
   });
 
-  Map<String, Map> _patternMap({VenoRoute parentRoute}) {
-    String pattern = parentRoute == null ? path : "${parentRoute.path}/${path}";
-
-    final item = {
-      'route': this,
-      'builder': (Widget child, VenoRoute route) {
-        Widget widget = this.builder(child, route);
-        if (parentRoute == null) {
-          return widget;
-        }
-        return parentRoute.builder(widget, null);
-      },
-    };
-
-    Map<String, Map> map = {pattern: item};
-
-    (children ?? []).forEach((child) {
-      map.addAll(
-        child._patternMap(parentRoute: this),
+  VenoRoute _clone({Map params}) => VenoRoute(
+        name: name,
+        path: path,
+        builder: builder,
+        children: children,
+        params: params,
       );
-    });
-    return map;
-  }
 
-  VenoRoute _clone({Map params}) {
-    return VenoRoute(
-      name: name,
-      path: path,
-      builder: builder,
-      children: children,
-      params: params,
-    );
-  }
+  /// 名称
+  ///
+  final String name;
+
+  /// 路径
+  ///
+  final String path;
+
+  /// 子路由
+  ///
+  final List<VenoRoute> children;
+
+  /// 构建
+  ///
+  final VenoRouteWidgetBuilder builder;
+
+  /// 参数
+  ///
+  final Map params;
 }

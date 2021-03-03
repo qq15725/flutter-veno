@@ -1,22 +1,34 @@
 part of 'veno_router.dart';
 
 class VenoRouterNode {
-  final String part;
-  final bool isSpecial;
-  List<VenoRouterNode> nodes;
-  String pattern;
-  Map value;
-
-  VenoRouterNode({this.part, this.nodes, this.isSpecial, this.pattern}) {
+  VenoRouterNode({
+    this.part,
+    this.nodes,
+    this.isSpecial,
+    this.pattern,
+  }) {
     nodes = nodes ?? [];
   }
 
-  /// 根据 [pattern] 匹配规则创建节点
+  /// 路径部分
   ///
-  factory VenoRouterNode.pattern(String pattern) {
-    VenoRouterNode node = VenoRouterNode()..add(pattern);
-    return node;
-  }
+  final String part;
+
+  /// 子节点
+  ///
+  List<VenoRouterNode> nodes;
+
+  /// 匹配模式
+  ///
+  String pattern;
+
+  /// 是否特殊
+  ///
+  final bool isSpecial;
+
+  /// 特殊值
+  ///
+  Map value;
 
   /// 根据 [pattern] 匹配规则查询子节点
   ///
@@ -24,9 +36,6 @@ class VenoRouterNode {
     if (parts == null) {
       return find(pattern, parts: _patternToParts(pattern), depth: 0);
     } else if (parts.length == depth) {
-      if (this.pattern?.isEmpty ?? true) {
-        return null;
-      }
       if (isSpecial ?? false) {
         if (part.startsWith(':')) {
           value = {
@@ -65,5 +74,15 @@ class VenoRouterNode {
       }
       node.add(pattern, parts: parts, depth: depth + 1);
     }
+  }
+
+  Map toMap() {
+    return {
+      'part': part,
+      'nodes': nodes.map((node) => node.toMap()).toList(),
+      'pattern': pattern,
+      'isSpecial': isSpecial,
+      'value': value,
+    };
   }
 }

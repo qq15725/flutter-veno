@@ -1,7 +1,7 @@
 name: veno_model
 description: Flutter plugin.
 homepage: https://github.com/qq15725/flutter-veno/tree/master/packages/veno_model
-version: 0.0.2
+version: 0.0.3
 
 dependencies:
   flutter:

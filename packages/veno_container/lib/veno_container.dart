@@ -26,9 +26,7 @@ class VenoContainer extends InheritedWidget {
     return value;
   }
 
-  Map<String, dynamic> getInstances() {
-    return _instances;
-  }
+  Map<String, dynamic> getInstances() => _instances;
 
   static VenoContainer of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<VenoContainer>();
