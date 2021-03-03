@@ -24,11 +24,11 @@ import 'child_ciew.dart';
 final router = VenoRouter(routes: [
   VenoRoute(
     path: '/',
-    builder: (Widget child, VenoRoute route) => ParentView(child: child, route: route),
+    builder: (_, Widget child, VenoRoute route) => ParentView(child: child, route: route),
     children: [
       VenoRoute(
         path: '/products/:id',
-        builder: (Widget child, VenoRoute route) => ChildView(child: child, route: route),
+        builder: (_, Widget child, VenoRoute route) => ChildView(child: child, route: route),
       ),
     ],
   ),
@@ -102,11 +102,11 @@ class App extends StatelessWidget {
       onGenerateRoute: VenoRouter(routes: [
         VenoRoute(
           path: '/',
-          builder: (child, __) => ParentView(child: child),
+          builder: (_, child, __) => ParentView(child: child),
           children: [
             VenoRoute(
               path: '/products/:id',
-              builder: (_, VenoRoute route) => ChildView(route: route),
+              builder: (_, __, VenoRoute route) => ChildView(route: route),
             ),
           ],
         ),
