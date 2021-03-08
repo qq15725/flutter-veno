@@ -1,5 +1,4 @@
 name: veno_monorepo
-version: 0.0.2
 
 dev_dependencies:
-  melos: ^0.3.11
+  melos: ^0.4.5+2
