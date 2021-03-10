@@ -23,8 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  veno:
-    path: ../packages/veno
+  veno: ^0.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -33,15 +32,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-dependency_overrides:
-  veno_container:
-    path: ../packages/veno_container
-  veno_router:
-    path: ../packages/veno_router
-  veno_model:
-    path: ../packages/veno_model
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

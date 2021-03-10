@@ -1,10 +1,14 @@
 part of 'veno_router.dart';
 
 typedef Widget VenoRouteWidgetBuilder(
-    BuildContext context, Widget child, VenoRoute route);
+  BuildContext context,
+  Widget child,
+  VenoRoute route,
+);
 
-Widget _defaultVenoRouteWidgetBuilder(_, Widget child, __) =>
-    child ?? SizedBox.shrink();
+Widget _defaultVenoRouteWidgetBuilder(_, Widget child, __) {
+  return child ?? SizedBox.shrink();
+}
 
 @immutable
 class VenoRoute {
@@ -16,13 +20,17 @@ class VenoRoute {
     this.params,
   });
 
-  VenoRoute _clone({Map params}) => VenoRoute(
-        name: name,
-        path: path,
-        builder: builder,
-        children: children,
-        params: params,
-      );
+  VenoRoute _clone({
+    Map params,
+  }) {
+    return VenoRoute(
+      name: name,
+      path: path,
+      builder: builder,
+      children: children,
+      params: params,
+    );
+  }
 
   /// 名称
   ///

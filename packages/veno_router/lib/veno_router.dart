@@ -50,9 +50,9 @@ class VenoRouter {
   ///
   Map<String, int> _nameRouteIndexs;
 
-  /// 构建页面路由工厂
+  /// 构建路由工厂
   ///
-  RouteFactory buildPageRouteFactory() {
+  RouteFactory buildRouteFactory() {
     return (RouteSettings settings) {
       String path = settings.name;
       Map params = {};
@@ -81,12 +81,15 @@ class VenoRouter {
       }
       Map item = index == null ? {} : _routes[index];
       VenoRoute route = item['route'];
-      VenoRouteWidgetBuilder buildr = item['builder'] ?? _defaultVenoRouteWidgetBuilder;
-      return MaterialPageRoute(
-        builder: (BuildContext context) {
-          return buildr(context, null, route?._clone(params: params));
-        },
-      );
+      VenoRouteWidgetBuilder buildr =
+          item['builder'] ?? _defaultVenoRouteWidgetBuilder;
+      return MaterialPageRoute(builder: (BuildContext context) {
+        return buildr(
+          context,
+          null,
+          route?._clone(params: params),
+        );
+      });
     };
   }
 }

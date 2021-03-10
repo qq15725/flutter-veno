@@ -1,14 +1,18 @@
 import 'package:flutter/foundation.dart';
 
 abstract class VenoModel extends ChangeNotifier {
-  Map _payload;
+  VenoModel([this._attributes]);
 
-  VenoModel([payload]) {
-    this._payload = payload ?? {};
-  }
+  /// 所有属性
+  ///
+  Map _attributes = {};
 
-  T get<T>(key) => _payload[key];
+  /// 获取属性
+  ///
+  T get<T>(key) => _attributes[key];
 
+  /// 设置属性
+  ///
   void set(key, [value]) {
     Map data = {};
     if (value == null && key is Map) {
@@ -18,20 +22,24 @@ abstract class VenoModel extends ChangeNotifier {
     }
     if (data.length > 0) {
       data.forEach((key, value) {
-        _payload[key] = value;
+        _attributes[key] = value;
       });
       super.notifyListeners();
     }
   }
 
+  /// 删除属性
+  ///
   void delete([key]) {
     if (key == null) {
-      _payload.clear();
+      _attributes.clear();
     } else {
-      _payload.remove(key);
+      _attributes.remove(key);
     }
     super.notifyListeners();
   }
 
-  Map toMap() => _payload;
+  /// 所有属性 [Map] 形式
+  ///
+  Map toMap() => _attributes;
 }

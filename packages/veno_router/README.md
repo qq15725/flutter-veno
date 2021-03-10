@@ -45,7 +45,7 @@ import 'router.dart';
 
 void main() {
   runApp(MaterialApp(
-    onGenerateRoute: router.buildPageRouteFactory(),
+    onGenerateRoute: router.buildRouteFactory(),
   ));
 }
 ```
@@ -110,7 +110,7 @@ class App extends StatelessWidget {
             ),
           ],
         ),
-      ]).buildPageRouteFactory(),
+      ]).buildRouteFactory(),
     );
   }
 }

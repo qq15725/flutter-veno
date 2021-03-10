@@ -2,3 +2,4 @@ name: veno_monorepo
 
 packages:
   - packages/**
+  - example/*

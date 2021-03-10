@@ -9,11 +9,11 @@ dependencies:
   veno_router: ^0.0.3
   veno_model: ^0.0.3
   veno_container: ^0.0.3
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+  sdk: ">=2.1.0 <3.0.0"

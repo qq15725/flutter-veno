@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/pages/home_page.dart';
+import 'package:veno/veno.dart';
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      onGenerateRoute: Veno.of(context).buildRouteFactory(),
     );
   }
 }

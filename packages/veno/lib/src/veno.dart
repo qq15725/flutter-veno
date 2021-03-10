@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/foundation.dart';
 import 'package:veno_container/veno_container.dart';
-
-typedef void VenoProvider(Veno app);
+import 'package:veno_router/veno_router.dart';
+import 'veno_provider.dart';
+import 'providers/shared_preferences_provider.dart';
+import 'providers/error_handle_provider.dart';
 
 class Veno extends VenoContainer {
   Veno({
     Key key,
     Widget child,
-    List<VenoProvider> providers = const [],
+    this.router,
+    this.providers,
+    this.onError,
     bool singleton = false,
   }) : super(key: key, child: child) {
-    // 设置 providers
-    setupProviders(providers);
+    boot();
 
-    // 设置单例
     if (singleton) {
-      Veno.singleton(veno: this);
+      Veno.singleton(this);
     }
   }
 
@@ -24,15 +26,35 @@ class Veno extends VenoContainer {
   ///
   static Veno _singleton;
 
-  /// 往上找到 Veno 实例
+  /// Providers
   ///
+  List<VenoProvider> providers;
+
+  /// 合并后的 Providers
+  ///
+  List<VenoProvider> get _providers => [
+        ErrorHandleProvider(),
+        SharedPreferencesProvider(),
+      ]..addAll(providers ?? []);
+
+  /// 路由
+  ///
+  VenoRouter router;
+
+  /// 错误捕获
+  ///
+  FlutterExceptionHandler onError;
+
+  /// 子树向上寻找 [Veno] 实例
+  ///
+  @override
   static Veno of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Veno>();
   }
 
-  /// 获取或设置 Veno 单例
+  /// 获取/设置 [Veno] 单例
   ///
-  static Veno singleton({Veno veno}) {
+  static Veno singleton([Veno veno]) {
     if (veno != null) {
       Veno._singleton = veno;
     }
@@ -40,23 +62,30 @@ class Veno extends VenoContainer {
     return Veno._singleton;
   }
 
-  /// Setup Providers
+  /// 启动
   ///
-  void setupProviders(List<VenoProvider> providers) {
-    providers.forEach((provider) {
-      provider(this);
-    });
+  Future<void> boot() async {
+    await _registerProviders();
+    await _bootProviders();
   }
 
-  /// 获取
+  /// 注册所有 [VenoProvider]
   ///
-  T get<T>([key]) {
-    return offsetGet<T>(key);
+  Future<void> _registerProviders() async {
+    for (int i = 0; i < _providers.length; i++) {
+      await _providers[i].registerProvider(this);
+    }
   }
 
-  /// 设置
+  /// 启动所有 [VenoProvider]
   ///
-  T set<T>(dynamic value, {dynamic key}) {
-    return offsetSet<T>(value, key: key);
+  Future<void> _bootProviders() async {
+    for (int i = 0; i < _providers.length; i++) {
+      await _providers[i].bootProvider(this);
+    }
   }
+
+  /// 构建页面路由工厂
+  ///
+  RouteFactory buildRouteFactory() => router?.buildRouteFactory();
 }
