@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 
 abstract class VenoModel extends ChangeNotifier {
-  VenoModel([this._attributes]);
+  VenoModel([this._attributes]) {
+    _attributes = _attributes ?? {};
+  }
 
   /// 所有属性
   ///
-  Map _attributes = {};
+  Map _attributes;
 
   /// 获取属性
   ///
