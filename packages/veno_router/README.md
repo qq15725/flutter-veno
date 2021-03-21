@@ -35,7 +35,7 @@ final router = VenoRouter(routes: [
 ]);
 ```
 
-注册 onGenerateRoute 页面路由工厂
+注册 onGenerateRoute routeFactory
 
 main.dart
 
@@ -45,7 +45,7 @@ import 'router.dart';
 
 void main() {
   runApp(MaterialApp(
-    onGenerateRoute: router.buildRouteFactory(),
+    onGenerateRoute: router.routeFactory(),
   ));
 }
 ```
@@ -110,7 +110,7 @@ class App extends StatelessWidget {
             ),
           ],
         ),
-      ]).buildRouteFactory(),
+      ]).routeFactory(),
     );
   }
 }

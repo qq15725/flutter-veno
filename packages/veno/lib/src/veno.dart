@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:veno_container/veno_container.dart';
 import 'package:veno_router/veno_router.dart';
 import 'veno_provider.dart';
-import 'providers/shared_preferences_provider.dart';
 import 'providers/error_handle_provider.dart';
 
 class Veno extends VenoContainer {
@@ -34,7 +33,6 @@ class Veno extends VenoContainer {
   ///
   List<VenoProvider> get _providers => [
         ErrorHandleProvider(),
-        SharedPreferencesProvider(),
       ]..addAll(providers ?? []);
 
   /// 路由
@@ -85,7 +83,7 @@ class Veno extends VenoContainer {
     }
   }
 
-  /// 构建页面路由工厂
+  /// 构建路由
   ///
-  RouteFactory buildRouteFactory() => router?.buildRouteFactory();
+  RouteFactory routeFactory() => router?.routeFactory();
 }

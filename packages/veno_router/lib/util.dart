@@ -26,32 +26,31 @@ Map _parseQueryString(String qs) {
   return map;
 }
 
-/// 生成一维简化路由
+/// 生成一维路由
 ///
-List<Map> _genSimpleRoutes(List<VenoRoute> routes, [
-  List<Map> initialPatternRoutes,
+List<VenoRoute> _genRoutes(
+  List<VenoRoute> routes, [
+  List<VenoRoute> initialPatternRoutes,
   VenoRoute parentRoute,
 ]) {
   return routes?.fold(
-    initialPatternRoutes ?? [],
+        initialPatternRoutes ?? [],
         (patternRoutes, route) {
-      patternRoutes.add({
-        'route': route,
-        'name': route.name,
-        'pattern': [parentRoute?.path, route.path]
-            .where((path) => path != null && path.isNotEmpty)
-            .join('/'),
-        'builder': (BuildContext context, Widget child, VenoRoute route) {
-          Widget widget = route.builder(context, child, route);
-          return parentRoute?.builder(context, widget, null) ?? widget;
+          patternRoutes.add(
+            route._clone(
+              path: [parentRoute?.path, route.path]
+                  .where((path) => path != null && path.isNotEmpty)
+                  .join('/'),
+              parent: parentRoute,
+            ),
+          );
+
+          patternRoutes.addAll(
+            _genRoutes(route.children, patternRoutes, parentRoute),
+          );
+
+          return patternRoutes;
         },
-      });
-
-      patternRoutes.addAll(
-        _genSimpleRoutes(route.children, patternRoutes, parentRoute),
-      );
-
-      return patternRoutes;
-    },
-  ) ?? [];
+      ) ??
+      [];
 }

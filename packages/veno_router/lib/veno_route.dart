@@ -18,19 +18,8 @@ class VenoRoute {
     this.builder = _defaultVenoRouteWidgetBuilder,
     this.children,
     this.params,
+    this.parent,
   });
-
-  VenoRoute _clone({
-    Map params,
-  }) {
-    return VenoRoute(
-      name: name,
-      path: path,
-      builder: builder,
-      children: children,
-      params: params,
-    );
-  }
 
   /// 名称
   ///
@@ -51,4 +40,35 @@ class VenoRoute {
   /// 参数
   ///
   final Map params;
+
+  ///
+  ///
+  final VenoRoute parent;
+
+  ///
+  ///
+  VenoRoute _clone({
+    String name,
+    String path,
+    VenoRouteWidgetBuilder builder,
+    List<VenoRoute> children,
+    Map params,
+    VenoRoute parent,
+  }) {
+    return VenoRoute(
+      name: name ?? this.name,
+      path: path ?? this.path,
+      builder: builder ?? this.builder,
+      children: children ?? this.children,
+      params: params ?? this.params,
+      parent: parent ?? this.parent,
+    );
+  }
+
+  ///
+  ///
+  _builder(BuildContext context, Widget child, VenoRoute route) {
+    Widget widget = builder(context, child, route);
+    return parent?.builder(context, widget, null) ?? widget;
+  }
 }

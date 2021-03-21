@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      onGenerateRoute: Veno.of(context).buildRouteFactory(),
+      onGenerateRoute: Veno.of(context).routeFactory(),
     );
   }
 }
